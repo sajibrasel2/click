@@ -2,8 +2,6 @@
 require __DIR__ . '/config.php';
 
 try {
-    $pdoNoDb = dbConnect(false);
-    $pdoNoDb->exec("CREATE DATABASE IF NOT EXISTS `$DB_NAME` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
     $pdo = dbConnect(true);
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS users (
