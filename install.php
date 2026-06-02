@@ -51,7 +51,7 @@ try {
     if ($existingSites == 0) {
         $stmt = $pdo->prepare('INSERT INTO sites (name, url, ad_url) VALUES (?, ?, ?)');
         $stmt->execute(['সাইট ১', 'https://techandclick.site/movies.php', 'https://techandclick.site/movies.php']);
-        $stmt->execute(['সাইট ২', 'https://rewardtojishu.blogspot.com/2026/05/blog-post.html', 'https://rewardtojishu.blogspot.com/2026/05/blog-post.html']);
+        $stmt->execute(['সাইট ২', 'https://rewardtojishu.blogspot.com/2026/05/blog-post.html?m=1', 'https://rewardtojishu.blogspot.com/2026/05/blog-post.html?m=1']);
         $stmt->execute(['সাইট ৩', 'https://rewardtomunna.blogspot.com/2026/05/reward-center.html', 'https://rewardtomunna.blogspot.com/2026/05/reward-center.html']);
         $stmt->execute(['সাইট ৪', 'https://example.com/site4', 'https://example.com/site4']);
         $stmt->execute(['সাইট ৫', 'https://example.com/site5', 'https://example.com/site5']);
