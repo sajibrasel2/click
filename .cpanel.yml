@@ -1,4 +1,4 @@
 ---
 deployment:
   tasks:
-    - /bin/rsync -a --exclude='.git' --exclude='.cpanel.yml' ./ /home/techandc/public_html/click/
+    - /bin/cp -R * /home/techandc/public_html/click/
