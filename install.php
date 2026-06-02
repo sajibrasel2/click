@@ -29,16 +29,8 @@ try {
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-    // ডিফল্ট ইউজার ১-৪ যদি না থাকে তবেই ইনসার্ট করবে
-    $existingUsers = $pdo->query('SELECT COUNT(*) as total FROM users')->fetchColumn();
-    if ($existingUsers == 0) {
-        $password = password_hash('pass1234', PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare('INSERT INTO users (username, password, fullname, role) VALUES (?, ?, ?, ?)');
-        $stmt->execute(['user1', $password, 'Site 1 Manager', 'user']);
-        $stmt->execute(['user2', $password, 'Site 2 Manager', 'user']);
-        $stmt->execute(['user3', $password, 'Site 3 Manager', 'user']);
-        $stmt->execute(['user4', $password, 'Site 4 Manager', 'user']);
-    }
+    // অপ্রয়োজনীয় ডিফল্ট ইউজার ১-৪ ডাটাবেস থেকে মুছে ফেলা
+    $pdo->exec("DELETE FROM users WHERE username IN ('user1', 'user2', 'user3', 'user4')");
 
     // আপনার দেওয়া নির্দিষ্ট ৩ জন ব্যবহারকারী ডাটাবেসে না থাকলে তা নিশ্চিতভাবে ইনসার্ট করবে
     $usersToInsert = [

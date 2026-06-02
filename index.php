@@ -62,10 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">লগইন</button>
         </form>
 
-        <div class="note">
-            ডিফল্ট ব্যবহারকারী: user1 / user2 / user3 / user4 / user5<br />
-            পাসওয়ার্ড: pass1234
-        </div>
     </div>
 <script src="auto_redirect.js"></script>
 </body>
