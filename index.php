@@ -9,10 +9,9 @@ if (is_logged_in()) {
 $error = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
 
-    if ($username === '' || $password === '') {
-        $error = 'দয়া করে ব্যবহারকারীর নাম ও পাসওয়ার্ড দিন।';
+
+        $error = 'দয়া করে Gmail ইমেইল দিন।';
     } else {
         try {
             $pdo = dbConnect(true);
@@ -20,17 +19,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$username]);
             $user = $stmt->fetch();
 
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user'] = [
-                    'id' => $user['id'],
-                    'username' => $user['username'],
-                    'fullname' => $user['fullname'],
-                ];
+            // Email-only login: ensure Gmail address and create user if not exists
+            if (filter_var($username, FILTER_VALIDATE_EMAIL) && preg_match('/@gmail\.com$/i', $username)) {
+                if ($user) {
+                    // existing user, log in
+                    $_SESSION['user'] = [
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                        'fullname' => $user['fullname'],
+                    ];
+                } else {
+                    // create new user
+                    $stmtInsert = $pdo->prepare('INSERT INTO users (username, password, fullname, role) VALUES (?, ?, ?, ?)');
+                    $defaultPasswordHash = password_hash(bin2hex(random_bytes(8)), PASSWORD_DEFAULT);
+                    $fullname = explode('@', $username)[0] . " বাট ফিরস্ত";
+                    $stmtInsert->execute([$username, $defaultPasswordHash, $fullname, 'user']);
+                    $newId = $pdo->lastInsertId();
+                    $_SESSION['user'] = [
+                        'id' => $newId,
+                        'username' => $username,
+                        'fullname' => $fullname,
+                    ];
+                }
                 header('Location: dashboard.php');
                 exit;
+            } else {
+                $error = 'দয়া করে বৈধ Gmail ইমেইল প্রদান করুন।';
             }
-
-            $error = 'আপনার লগইন তথ্য সঠিক নয়।';
         } catch (PDOException $e) {
             $error = 'ডাটাবেসে সংযোগ ব্যর্থ: ' . htmlspecialchars($e->getMessage());
         }
@@ -56,8 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>ব্যবহারকারীর নাম</label>
             <input type="text" name="username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required />
 
-            <label>পাসওয়ার্ড</label>
-            <input type="text" name="password" required />
+            <!-- Password field removed for email-only login -->
 
             <button type="submit">লগইন</button>
         </form>
