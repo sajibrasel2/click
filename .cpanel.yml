@@ -1,5 +1,4 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/techandc/public_html/click
-    - /bin/rsync -a --exclude='.git' --exclude='.cpanel.yml' ./ $DEPLOYPATH
+    - /bin/rsync -a --exclude='.git' --exclude='.cpanel.yml' ./ /home/techandc/public_html/click/
