@@ -30,10 +30,12 @@ $totalClicksBySite = $pdo->query('
 ')->fetchAll(PDO::FETCH_KEY_PAIR);
 
 // 4. Get total clicks per user
+<?php
+// 4. Get total clicks per user (use email)
 $clicksByUser = $pdo->query('
-    SELECT u.fullname, COUNT(c.id) AS cnt 
-    FROM users u 
-    LEFT JOIN clicks c ON u.id = c.user_id 
+    SELECT u.username AS email, COUNT(c.id) AS cnt
+    FROM users u
+    LEFT JOIN clicks c ON u.id = c.user_id
     GROUP BY u.id
     ORDER BY cnt DESC
 ')->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -94,6 +96,9 @@ $clicksByUser = $pdo->query('
             <div>
                 <h1>ড্যাসবোর্ড</h1>
                 <p>স্বাগতম, <strong><?= htmlspecialchars($_SESSION['user']['fullname']) ?></strong> (<?= htmlspecialchars($_SESSION['user']['username']) ?>)</p>
+<div class="notice">
+  <strong>আপনার রেভিনিউ/প্রফিট বাড়াতে:</strong> Adsterra‑তে আয় পেতে অবশ্যই সাইটে <strong>১০ সেকেন্ডের বেশি সময়</strong> কাটান এবং বিজ্ঞাপনগুলোতে <strong>ক্লিক করুন</strong>।
+</div>
             </div>
             <div class="header-actions">
                 <a href="auto_visit.php" class="button">অটো ভিজিট শুরু করুন (১-৩)</a>
@@ -139,15 +144,15 @@ $clicksByUser = $pdo->query('
             <table>
                 <thead>
                     <tr>
-                        <th>ইউজার (নাম)</th>
+                        <th>ইউজার (ইমেইল)</th>
                         <th>মোট ক্লিক সংখ্যা</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($clicksByUser as $name => $cnt): ?>
                         <tr>
-                            <td><?= htmlspecialchars($name) ?></td>
-                            <td><strong><?= $cnt ?></strong></td>
+                                <td><?= htmlspecialchars($name) ?></td>
+                            <td><?= htmlspecialchars($cnt) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
