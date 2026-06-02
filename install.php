@@ -35,8 +35,8 @@ try {
     // আপনার দেওয়া নির্দিষ্ট ৩ জন ব্যবহারকারী ডাটাবেসে না থাকলে তা নিশ্চিতভাবে ইনসার্ট করবে
     $usersToInsert = [
         ['raselsajib25@gmail.com', '12345Sajibs6@', 'Rasel Sajib', 'user'],
-        ['jishuchowdhury78@gmail.com', 'jishuchowdhury59@#', 'Jishu Chowdhury', 'user'],
-        ['nusratjahanhabiba1212@gmail.com', 'MUNNA12@#', 'Nusrat Jahan Habiba', 'user']
+        ['jishuchowdhury78@gmail.com', '12345@', 'Jishu Chowdhury', 'user'],
+        ['nusratjahanhabiba1212@gmail.com', '12345@', 'Nusrat Jahan Habiba', 'user'],
     ];
     $stmtCheck = $pdo->prepare('SELECT COUNT(*) FROM users WHERE username = ?');
     $stmtInsert = $pdo->prepare('INSERT INTO users (username, password, fullname, role) VALUES (?, ?, ?, ?)');

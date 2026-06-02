@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required />
 
             <label>পাসওয়ার্ড</label>
-            <input type="password" name="password" required />
+            <input type="text" name="password" required />
 
             <button type="submit">লগইন</button>
         </form>
