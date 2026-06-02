@@ -19,8 +19,10 @@ try {
         exit;
     }
 
+    // Safely handle missing or deleted user
+    $userId = current_user()['id'] ?? null;
     $stmt = $pdo->prepare('INSERT INTO clicks (site_id, user_id, clicked_at, ip_address) VALUES (?, ?, NOW(), ?)');
-    $stmt->execute([$siteId, current_user()['id'], $_SERVER['REMOTE_ADDR'] ?? null]);
+    $stmt->execute([$siteId, $userId, $_SERVER['REMOTE_ADDR'] ?? null]);
 
     header('Location: ' . $site['ad_url']);
     exit;

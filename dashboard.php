@@ -96,7 +96,7 @@ $clicksByUser = $pdo->query('
                 <p>স্বাগতম, <strong><?= htmlspecialchars($_SESSION['user']['fullname']) ?></strong> (<?= htmlspecialchars($_SESSION['user']['username']) ?>)</p>
             </div>
             <div class="header-actions">
-                <a href="visit.php?site_id=1" class="button">অটো ভিজিট শুরু করুন (১-৩)</a>
+                <a href="auto_visit.php" class="button">অটো ভিজিট শুরু করুন (১-৩)</a>
                 <a href="logout.php" class="button-secondary">লগআউট</a>
             </div>
         </header>
