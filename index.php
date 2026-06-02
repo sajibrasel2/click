@@ -9,8 +9,7 @@ if (is_logged_in()) {
 $error = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
-
-
+    if ($username === '') {
         $error = 'দয়া করে Gmail ইমেইল দিন।';
     } else {
         try {
@@ -55,6 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="bn">
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>লগইন | সাইট ক্লিক ট্র্যাকার</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
@@ -68,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="post" action="index.php">
-            <label>ব্যবহারকারীর নাম</label>
+            <label>ইমেইল (Gmail)</label>
             <input type="text" name="username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required />
 
             <!-- Password field removed for email-only login -->
