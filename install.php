@@ -29,6 +29,7 @@ try {
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
+    // ডিফল্ট ইউজার ১-৪ যদি না থাকে তবেই ইনসার্ট করবে
     $existingUsers = $pdo->query('SELECT COUNT(*) as total FROM users')->fetchColumn();
     if ($existingUsers == 0) {
         $password = password_hash('pass1234', PASSWORD_DEFAULT);
@@ -37,9 +38,21 @@ try {
         $stmt->execute(['user2', $password, 'Site 2 Manager', 'user']);
         $stmt->execute(['user3', $password, 'Site 3 Manager', 'user']);
         $stmt->execute(['user4', $password, 'Site 4 Manager', 'user']);
-        $stmt->execute(['raselsajib25@gmail.com', password_hash('12345Sajibs6@', PASSWORD_DEFAULT), 'Rasel Sajib', 'user']);
-        $stmt->execute(['jishuchowdhury78@gmail.com', password_hash('jishuchowdhury59@#', PASSWORD_DEFAULT), 'Jishu Chowdhury', 'user']);
-        $stmt->execute(['nusratjahanhabiba1212@gmail.com', password_hash('MUNNA12@#', PASSWORD_DEFAULT), 'Nusrat Jahan Habiba', 'user']);
+    }
+
+    // আপনার দেওয়া নির্দিষ্ট ৩ জন ব্যবহারকারী ডাটাবেসে না থাকলে তা নিশ্চিতভাবে ইনসার্ট করবে
+    $usersToInsert = [
+        ['raselsajib25@gmail.com', '12345Sajibs6@', 'Rasel Sajib', 'user'],
+        ['jishuchowdhury78@gmail.com', 'jishuchowdhury59@#', 'Jishu Chowdhury', 'user'],
+        ['nusratjahanhabiba1212@gmail.com', 'MUNNA12@#', 'Nusrat Jahan Habiba', 'user']
+    ];
+    $stmtCheck = $pdo->prepare('SELECT COUNT(*) FROM users WHERE username = ?');
+    $stmtInsert = $pdo->prepare('INSERT INTO users (username, password, fullname, role) VALUES (?, ?, ?, ?)');
+    foreach ($usersToInsert as $u) {
+        $stmtCheck->execute([$u[0]]);
+        if ($stmtCheck->fetchColumn() == 0) {
+            $stmtInsert->execute([$u[0], password_hash($u[1], PASSWORD_DEFAULT), $u[2], $u[3]]);
+        }
     }
 
     $existingSites = $pdo->query('SELECT COUNT(*) as total FROM sites')->fetchColumn();
