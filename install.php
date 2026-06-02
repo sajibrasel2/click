@@ -57,8 +57,12 @@ try {
         $stmt->execute(['সাইট ৫', 'https://example.com/site5', 'https://example.com/site5']);
     }
 
+    // Ensure Site 1 points to correct movies page
+    $updateSite1 = $pdo->prepare('UPDATE sites SET url = ?, ad_url = ? WHERE id = ?');
+    $updateSite1->execute(['https://techandclick.site/movies.php', 'https://techandclick.site/movies.php', 1]);
+    // Keep existing update for Site 2
     $updateSite2 = $pdo->prepare('UPDATE sites SET url = ?, ad_url = ? WHERE id = ?');
-    $updateSite2->execute(['https://rewardtojishu.blogspot.com/2026/05/blog-post.html', 'https://rewardtojishu.blogspot.com/2026/05/blog-post.html', 2]);
+    $updateSite2->execute(['https://rewardtojishu.blogspot.com/2026/05/blog-post.html', 'https://rewardjojishu.blogspot.com/2026/05/blog-post.html', 2]);
 
     echo "ইনস্টলেশন সফল হয়েছে। এখন আপনি index.php এ যান এবং ব্যবহারকারী লগইন করে দেখুন।";
 } catch (PDOException $e) {
