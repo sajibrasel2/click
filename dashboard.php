@@ -47,6 +47,7 @@ $clicksByUser = $pdo->query('
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ড্যাসবোর্ড – ক্লিক ট্র্যাকার</title>
     <link rel="stylesheet" href="styles.css">
+
     <style>
         .table-container {
             margin-top: 32px;
@@ -93,19 +94,18 @@ $clicksByUser = $pdo->query('
 <body>
     <div class="container">
         <header>
-            <div>
-                <h1>ড্যাসবোর্ড</h1>
-                <p>স্বাগতম, <strong><?= htmlspecialchars($_SESSION['user']['fullname']) ?></strong> (<?= htmlspecialchars($_SESSION['user']['username']) ?>)</p>
-<div class="notice">
-  <strong>আপনার রেভিনিউ/প্রফিট বাড়াতে:</strong> Adsterra‑তে আয় পেতে অবশ্যই সাইটে <strong>১০ সেকেন্ডের বেশি সময়</strong> কাটান এবং বিজ্ঞাপনগুলোতে <strong>ক্লিক করুন</strong>।
-</div>
-            </div>
-            <div class="header-actions">
-                <a href="auto_visit.php" class="button">অটো ভিজিট শুরু করুন (১-৩)</a>
-                <a href="logout.php" class="button-secondary">লগআউট</a>
-            </div>
-        </header>
-
+            <?php include 'nav.php'; ?>
+        <section class="welcome" style="padding: var(--gap);">
+            <h1>ড্যাসবোর্ড</h1>
+            <p>স্বাগতম, <strong><?= htmlspecialchars($_SESSION['user']['fullname']) ?></strong> (<?= htmlspecialchars($_SESSION['user']['username']) ?>)</p>
+        </section>
+        <div class="notice">
+            <strong>আপনার রেভিনিউ/প্রফিট বাড়াতে:</strong> Adsterra‑তে আয় পেতে অবশ্যই সাইটে <strong>১০ সেকেন্ডের বেশি সময়</strong> কাটান এবং বিজ্ঞাপনগুলোতে <strong>ক্লিক করুন</strong>।
+        </div>
+        <div class="header-actions">
+            <a href="auto_visit.php" class="button">অটো ভিজিট শুরু করুন (১-৩)</a>
+            <a href="logout.php" class="button-secondary">লগআউট</a>
+        </div>
         <section class="summary">
             <h2>পরিসংখ্যান সারাংশ</h2>
             <div class="stats-grid">
@@ -159,5 +159,6 @@ $clicksByUser = $pdo->query('
             </table>
         </div>
     </div>
+<script src="nav.js"></script>
 </body>
 </html>

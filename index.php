@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="container">
+    <?php include 'nav.php'; ?>
         <h1>সাইট ক্লিক ট্র্যাকার</h1>
         <p>৫টি সাইটের বিজ্ঞাপন ক্লিক গণনা করার জন্য লগইন করুন।</p>
 
@@ -75,10 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Password field removed for email-only login -->
 
-            <button type="submit">লগইন</button>
+            <button type="submit" class="button">লগইন</button>
         </form>
 
     </div>
 <script src="auto_redirect.js"></script>
+<script src="nav.js"></script>
 </body>
 </html>

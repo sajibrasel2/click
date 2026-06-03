@@ -13,22 +13,56 @@ $sites = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>অটো ভিজিট – ক্লিক ট্র্যাকার</title>
-    <style>
-        body {font-family: system-ui, sans-serif; background:#121212; color:#eee; display:flex; align-items:center; justify-content:center; height:100vh; margin:0;}
-        .msg {text-align:center;}
-        a {color:#38bdf8;}
-    </style>
+<style>
+    body {
+        font-family: system-ui, sans-serif;
+        background: #121212;
+        color: #eee;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+    .auto-container {
+        max-width: 960px;
+        width: 100%;
+        padding: 1rem;
+        text-align: center;
+    }
+    .msg {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+    #countdown {
+        margin: 0.5rem 0 1rem;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+    #viewer {
+        width: 100%;
+        height: 70vh;
+        border: none;
+        border-radius: 12px;
+        background: #1e293b;
+    }
+    a {color:#38bdf8;}
+    @media (max-width: 600px) {
+        #viewer {height: 55vh;}
+        .msg {font-size: 1rem;}
+    }
+</style>
 </head>
 <body>
+    <?php include 'nav.php'; ?><div class="auto-container">
     <div class="msg">
         <p>সাইটগুলোতে স্বয়ংক্রিয়ভাবে ভিজিট করা হচ্ছে…</p>
-        <p>যদি রিফ্রেশ করতে চান <a href="dashboard.php">ড্যাশবোর্ড</a> এ ফিরে যান।</p>
-<?php
-?>
+        <p>যদি রিফ্রেস করতে চান <a href="dashboard.php">ড্যাশবোর্ড</a> এ ফিরে যান।</p>
     </div>
-    <div id="countdown" style="text-align:center;margin:10px 0;font-weight:bold;"></div>
-    <iframe id="viewer" style="width:100%;height:80vh;border:none;"></iframe>
-    <script>
+    <div id="countdown"></div>
+    <iframe id="viewer"></iframe>
+</div>
+<script>
         const sites = <?php echo json_encode($sites, JSON_UNESCAPED_SLASHES); ?>;
         const siteList = sites.map(s => ({id: s.id, url: s.url}));
         let idx = 0;
@@ -62,5 +96,6 @@ $sites = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // Start when page loads
         visitNext();
     </script>
+    <script src="nav.js"></script>
 </body>
 </html>
