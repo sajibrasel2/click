@@ -23,29 +23,43 @@ $sites = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="msg">
         <p>সাইটগুলোতে স্বয়ংক্রিয়ভাবে ভিজিট করা হচ্ছে…</p>
         <p>যদি রিফ্রেশ করতে চান <a href="dashboard.php">ড্যাশবোর্ড</a> এ ফিরে যান।</p>
+<?php
+?>
     </div>
+    <div id="countdown" style="text-align:center;margin:10px 0;font-weight:bold;"></div>
+    <iframe id="viewer" style="width:100%;height:80vh;border:none;"></iframe>
     <script>
         const sites = <?php echo json_encode($sites, JSON_UNESCAPED_SLASHES); ?>;
-        // Convert to array of {id, url}
         const siteList = sites.map(s => ({id: s.id, url: s.url}));
         let idx = 0;
-        function visitNext() {
-            if (idx >= siteList.length) {
-                // All done – return to dashboard
+        const iframe = document.getElementById('viewer');
+        const countdownEl = document.getElementById('countdown');
+        function updateCountdown(seconds) {
+            countdownEl.textContent = `পরের সাইটে যাওয়ার বাকি সময়: ${seconds}s`;
+        }
+        function visitNext(){
+            if(idx >= siteList.length){
                 window.location.href = 'dashboard.php';
                 return;
             }
             const site = siteList[idx];
-            // Record click first
-            fetch(`https://techandclick.site/click/click.php?site_id=${site.id}`, {
-                credentials: 'include'
-            }).catch(e => console.error('Click record error', e));
-            // After short delay navigate
-            setTimeout(() => {
-                window.location.href = site.url;
-            }, 2000); // 2 seconds before leaving current page
+            fetch(`https://techandclick.site/click/click.php?site_id=${site.id}`, {credentials:'include'})
+                .catch(e=>console.error('Click record error',e));
+            iframe.src = site.url;
+            let remaining = 10;
+            updateCountdown(remaining);
+            const timer = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(timer);
+                    idx++;
+                    visitNext();
+                } else {
+                    updateCountdown(remaining);
+                }
+            }, 1000);
         }
-        // Start the chain when this page loads
+        // Start when page loads
         visitNext();
     </script>
 </body>

@@ -30,7 +30,7 @@ $totalClicksBySite = $pdo->query('
 ')->fetchAll(PDO::FETCH_KEY_PAIR);
 
 // 4. Get total clicks per user
-<?php
+
 // 4. Get total clicks per user (use email)
 $clicksByUser = $pdo->query('
     SELECT u.username AS email, COUNT(c.id) AS cnt
